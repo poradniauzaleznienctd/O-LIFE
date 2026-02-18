@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>O-LIFE (Oxford-Liverpool Inventory of Feelings and Experiences)</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #ececec;
+      color: #000;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 16px;
+      line-height: 1.25;
+    }
+    .page {
+      width: 900px;
+      max-width: calc(100% - 30px);
+      margin: 18px auto;
+      background: #fff;
+      padding: 42px 52px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+    }
+    .top-right {
+      text-align: right;
+      font-size: 18px;
+      margin-top: -8px;
+      margin-bottom: 6px;
+    }
+    .title {
+      text-align: center;
+      font-style: italic;
+      text-decoration: underline;
+      font-weight: bold;
+      font-size: 22px;
+      margin: 8px 0 2px 0;
+    }
+    .subtitle {
+      text-align: center;
+      font-size: 16px;
+      margin: 0 0 16px 0;
+    }
+    .instructions {
+      border: 1px solid #8a8a8a;
+      background: #d9d9d9;
+      padding: 10px 14px;
+      margin: 0 auto 18px auto;
+      font-size: 16px;
+    }
+    .instructions p {
+      margin: 6px 0;
+    }
+    .u {
+      text-decoration: underline;
+      font-weight: bold;
+    }
+    .items {
+      margin-top: 10px;
+    }
+    .item-row {
+      display: grid;
+      grid-template-columns: 90px 44px 1fr;
+      column-gap: 10px;
+      align-items: start;
+      margin: 10px 0;
+    }
+    .choice {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .choice label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .choice input[type="radio"] {
+      transform: scale(1.05);
+      margin: 0;
+    }
+    .slash {
+      opacity: 0.8;
+    }
+    .num {
+      text-align: right;
+      padding-right: 4px;
+      white-space: nowrap;
+    }
+    .qtext {
+      word-break: break-word;
+    }
+    .actions {
+      margin-top: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    button {
+      font-family: inherit;
+      font-size: 16px;
+      padding: 10px 14px;
+      cursor: pointer;
+    }
+    .error {
+      color: #b00020;
+      font-weight: bold;
+      margin-top: 14px;
+      display: none;
+    }
+    .results {
+      margin-top: 18px;
+      border-top: 1px solid #cfcfcf;
+      padding-top: 14px;
+      display: none;
+    }
+    .results h2 {
+      margin: 0 0 10px 0;
+      font-size: 18px;
+    }
+    .results .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .results .line {
+      font-size: 16px;
+    }
+    .report-label {
+      margin: 10px 0 6px 0;
+      font-weight: bold;
+    }
+    textarea {
+      width: 100%;
+      min-height: 130px;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 16px;
+      padding: 10px;
+      box-sizing: border-box;
+      resize: vertical;
+    }
+    .copy-row {
+      margin-top: 8px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .copy-note {
+      font-size: 14px;
+      opacity: 0.85;
+    }
+    @media (max-width: 520px) {
+      .item-row {
+        grid-template-columns: 90px 40px 1fr;
+      }
+      .page {
+        padding: 26px 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="top-right">Załącznik nr 3</div>
+
+    <div class="title">O-LIFE</div>
+    <div class="subtitle">(Oxford-Liverpool Inventory of Feelings and Experiences)</div>
+
+    <div class="instructions">
+      <p>Proszę zakreślić <b>T</b> (tak) we wszystkich stwierdzeniach, w których dane zdanie jest właściwe dla <span class="u">większej części Twojego życia</span>.</p>
+      <p>Proszę zakreślić <b>N</b> (nie) w tych stwierdzeniach, których treść <span class="u">nie odnosi się</span> do <span class="u">większej części Twojego życia</span>.</p>
+    </div>
+
+    <form id="olifeForm" class="items" autocomplete="off">
+      
+    <div class="item-row" id="item1">
+      <div class="choice">
+        <label><input type="radio" name="q1" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q1" value="N">N</label>
+      </div>
+      <div class="num">1.</div>
+      <div class="qtext">Czy wierzysz w telepatię?</div>
+    </div>
+    
+
+    <div class="item-row" id="item2">
+      <div class="choice">
+        <label><input type="radio" name="q2" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q2" value="N">N</label>
+      </div>
+      <div class="num">2.</div>
+      <div class="qtext">Czy czasami masz przeczucie, że coś się zdarzy, nawet jeśli nie masz żadnych podstaw, aby tak myśleć?</div>
+    </div>
+    
+
+    <div class="item-row" id="item3">
+      <div class="choice">
+        <label><input type="radio" name="q3" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q3" value="N">N</label>
+      </div>
+      <div class="num">3.</div>
+      <div class="qtext">Czy zdarza Ci się, że nagle czujesz się rozkojarzony przez nieokreślone dźwięki?</div>
+    </div>
+    
+
+    <div class="item-row" id="item4">
+      <div class="choice">
+        <label><input type="radio" name="q4" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q4" value="N">N</label>
+      </div>
+      <div class="num">4.</div>
+      <div class="qtext">Czy często miewasz dni, kiedy światła w pomieszczeniu, w którym przebywasz, zdają się tak jasne, że aż Cię rażą?</div>
+    </div>
+    
+
+    <div class="item-row" id="item5">
+      <div class="choice">
+        <label><input type="radio" name="q5" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q5" value="N">N</label>
+      </div>
+      <div class="num">5.</div>
+      <div class="qtext">Czy Twój zmysł węchu staje się czasami wyjątkowo wrażliwy?</div>
+    </div>
+    
+
+    <div class="item-row" id="item6">
+      <div class="choice">
+        <label><input type="radio" name="q6" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q6" value="N">N</label>
+      </div>
+      <div class="num">6.</div>
+      <div class="qtext">Czy kiedykolwiek czułeś/czułaś, że Twoja głowa lub inne członki ciała nie należą do Ciebie?</div>
+    </div>
+    
+
+    <div class="item-row" id="item7">
+      <div class="choice">
+        <label><input type="radio" name="q7" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q7" value="N">N</label>
+      </div>
+      <div class="num">7.</div>
+      <div class="qtext">Czy zdarzyło Ci się, że odczuwałeś/odczuwałaś wokół siebie obecność złych mocy, mimo że ich nie widziałeś/widziałaś?</div>
+    </div>
+    
+
+    <div class="item-row" id="item8">
+      <div class="choice">
+        <label><input type="radio" name="q8" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q8" value="N">N</label>
+      </div>
+      <div class="num">8.</div>
+      <div class="qtext">Czy zastanawiałeś/zastanawiałaś się kiedykolwiek nad tym, czy duchy zmarłych mogą mieć wpływ na żywych?</div>
+    </div>
+    
+
+    <div class="item-row" id="item9">
+      <div class="choice">
+        <label><input type="radio" name="q9" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q9" value="N">N</label>
+      </div>
+      <div class="num">9.</div>
+      <div class="qtext">Czy zdarzyło Ci się, że widziałeś/widziałaś przed sobą twarz jakiejś osoby, mimo że w rzeczywistości nikogo przed Tobą nie było?</div>
+    </div>
+    
+
+    <div class="item-row" id="item10">
+      <div class="choice">
+        <label><input type="radio" name="q10" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q10" value="N">N</label>
+      </div>
+      <div class="num">10.</div>
+      <div class="qtext">Czy kiedy znajdujesz się w ciemnościach, często widujesz kształty lub postacie, mimo że nie ma tam nikogo?</div>
+    </div>
+    
+
+    <div class="item-row" id="item11">
+      <div class="choice">
+        <label><input type="radio" name="q11" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q11" value="N">N</label>
+      </div>
+      <div class="num">11.</div>
+      <div class="qtext">Czy kiedy patrzysz w lustro, Twoja twarz wydaje Ci się czasami całkowicie inna od zwyczajnego wyglądu?</div>
+    </div>
+    
+
+    <div class="item-row" id="item12">
+      <div class="choice">
+        <label><input type="radio" name="q12" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q12" value="N">N</label>
+      </div>
+      <div class="num">12.</div>
+      <div class="qtext">Czy odnosisz czasami wrażenie, że Twoje myśli są tak intensywne, iż prawie je słyszysz?</div>
+    </div>
+    
+
+    <div class="item-row" id="item13">
+      <div class="choice">
+        <label><input type="radio" name="q13" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q13" value="N">N</label>
+      </div>
+      <div class="num">13.</div>
+      <div class="qtext">Czy niektórzy ludzie jedynie poprzez myślenie o Tobie są w stanie sprawić, że czujesz ich obecność?</div>
+    </div>
+    
+
+    <div class="item-row" id="item14">
+      <div class="choice">
+        <label><input type="radio" name="q14" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q14" value="N">N</label>
+      </div>
+      <div class="num">14.</div>
+      <div class="qtext">Czy pomysły i spostrzeżenia nachodzą Cię czasami tak szybko, że nie jesteś w stanie ich wyrazić?</div>
+    </div>
+    
+
+    <div class="item-row" id="item15">
+      <div class="choice">
+        <label><input type="radio" name="q15" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q15" value="N">N</label>
+      </div>
+      <div class="num">15.</div>
+      <div class="qtext">Czy ludzie w Twoich marzeniach na jawie wydają Ci się tak prawdziwi, że czasami masz wrażenie, iż istnieją naprawdę?</div>
+    </div>
+    
+
+    <div class="item-row" id="item16">
+      <div class="choice">
+        <label><input type="radio" name="q16" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q16" value="N">N</label>
+      </div>
+      <div class="num">16.</div>
+      <div class="qtext">Czy czasami sądzisz, że wypadki, którym ulegasz, wywoływane są przez tajemnicze siły?</div>
+    </div>
+    
+
+    <div class="item-row" id="item17">
+      <div class="choice">
+        <label><input type="radio" name="q17" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q17" value="N">N</label>
+      </div>
+      <div class="num">17.</div>
+      <div class="qtext">Czy sądzisz, że gdybyś zechciał, mógłbyś nauczyć się czytać czyjeś myśli?</div>
+    </div>
+    
+
+    <div class="item-row" id="item18">
+      <div class="choice">
+        <label><input type="radio" name="q18" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q18" value="N">N</label>
+      </div>
+      <div class="num">18.</div>
+      <div class="qtext">Czy często Ci się zdarza, że prawie każda myśl, natychmiast i w sposób automatyczny, nasuwa Ci mnóstwo nowych pomysłów?</div>
+    </div>
+    
+
+    <div class="item-row" id="item19">
+      <div class="choice">
+        <label><input type="radio" name="q19" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q19" value="N">N</label>
+      </div>
+      <div class="num">19.</div>
+      <div class="qtext">Czy kiedykolwiek przelotna myśl wydawała Ci się tak realna, że napełniła Cię przerażeniem?</div>
+    </div>
+    
+
+    <div class="item-row" id="item20">
+      <div class="choice">
+        <label><input type="radio" name="q20" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q20" value="N">N</label>
+      </div>
+      <div class="num">20.</div>
+      <div class="qtext">Czy kiedykolwiek Twój głos wydawał się dochodzić z oddali?</div>
+    </div>
+    
+
+    <div class="item-row" id="item21">
+      <div class="choice">
+        <label><input type="radio" name="q21" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q21" value="N">N</label>
+      </div>
+      <div class="num">21.</div>
+      <div class="qtext">Czy kiedykolwiek miałeś/miałaś poczucie, że posiadasz szczególne, prawie magiczne moce?</div>
+    </div>
+    
+
+    <div class="item-row" id="item22">
+      <div class="choice">
+        <label><input type="radio" name="q22" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q22" value="N">N</label>
+      </div>
+      <div class="num">22.</div>
+      <div class="qtext">Czy Twój zmysł słuchu jest czasami tak wrażliwy, że zwykłe dźwięki stają się dla Ciebie nie do zniesienia?</div>
+    </div>
+    
+
+    <div class="item-row" id="item23">
+      <div class="choice">
+        <label><input type="radio" name="q23" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q23" value="N">N</label>
+      </div>
+      <div class="num">23.</div>
+      <div class="qtext">Czy miewasz czasami poczucie nieokreślonego niebezpieczeństwa lub nagłego strachu z przyczyn, których nie rozumiesz?</div>
+    </div>
+    
+
+    <div class="item-row" id="item24">
+      <div class="choice">
+        <label><input type="radio" name="q24" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q24" value="N">N</label>
+      </div>
+      <div class="num">24.</div>
+      <div class="qtext">Czy uważasz, że jesteś tak skuteczny/skuteczna w sprawowaniu kontroli nad innymi, że czasem Cię to przeraża?</div>
+    </div>
+    
+
+    <div class="item-row" id="item25">
+      <div class="choice">
+        <label><input type="radio" name="q25" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q25" value="N">N</label>
+      </div>
+      <div class="num">25.</div>
+      <div class="qtext">Czy zdarzyło Ci się kiedykolwiek pomyśleć, że słyszysz rozmawiających ze sobą ludzi, ale nagle uświadamiałeś sobie, że to co usłyszałeś, było tylko bliżej nieokreślonym hałasem?</div>
+    </div>
+    
+
+    <div class="item-row" id="item26">
+      <div class="choice">
+        <label><input type="radio" name="q26" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q26" value="N">N</label>
+      </div>
+      <div class="num">26.</div>
+      <div class="qtext">Czy miałeś kiedyś poczucie, że możesz sprawić, iż coś może się wydarzyć tylko wskutek intensywnego myślenia o tym?</div>
+    </div>
+    
+
+    <div class="item-row" id="item27">
+      <div class="choice">
+        <label><input type="radio" name="q27" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q27" value="N">N</label>
+      </div>
+      <div class="num">27.</div>
+      <div class="qtext">Czy zdarzało Ci się mieć poczucie, że Twoje ciało nie istnieje?</div>
+    </div>
+    
+
+    <div class="item-row" id="item28">
+      <div class="choice">
+        <label><input type="radio" name="q28" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q28" value="N">N</label>
+      </div>
+      <div class="num">28.</div>
+      <div class="qtext">Czy zdarzało Ci się mieć poczucie, że nabierasz energii lub ją tracisz, kiedy pewni ludzie patrzą na Ciebie lub Cię dotykają?</div>
+    </div>
+    
+
+    <div class="item-row" id="item29">
+      <div class="choice">
+        <label><input type="radio" name="q29" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q29" value="N">N</label>
+      </div>
+      <div class="num">29.</div>
+      <div class="qtext">Czy odległe dźwięki, które słyszysz w swoich marzeniach, wydają Ci się często bardzo wyraźne [rzeczywiste]?</div>
+    </div>
+    
+
+    <div class="item-row" id="item30">
+      <div class="choice">
+        <label><input type="radio" name="q30" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q30" value="N">N</label>
+      </div>
+      <div class="num">30.</div>
+      <div class="qtext">Czy Twoje myśli wydają się czasami równie rzeczywiste jak faktyczne wydarzenia w Twoim życiu?</div>
+    </div>
+    
+
+    <div class="item-row" id="item31">
+      <div class="choice">
+        <label><input type="radio" name="q31" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q31" value="N">N</label>
+      </div>
+      <div class="num">31.</div>
+      <div class="qtext">Czy łatwo Cię zdekoncentrować [wybić z rytmu], kiedy czytasz lub z kimś rozmawiasz?</div>
+    </div>
+    
+
+    <div class="item-row" id="item32">
+      <div class="choice">
+        <label><input type="radio" name="q32" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q32" value="N">N</label>
+      </div>
+      <div class="num">32.</div>
+      <div class="qtext">Czy miewasz poczucie, że trudno Cię czasami zrozumieć, ponieważ słowa, które wypowiadasz, są pomieszane i nie mają istotnego sensu?</div>
+    </div>
+    
+
+    <div class="item-row" id="item33">
+      <div class="choice">
+        <label><input type="radio" name="q33" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q33" value="N">N</label>
+      </div>
+      <div class="num">33.</div>
+      <div class="qtext">Czy często doświadczasz przytłaczającego poczucia pustki?</div>
+    </div>
+    
+
+    <div class="item-row" id="item34">
+      <div class="choice">
+        <label><input type="radio" name="q34" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q34" value="N">N</label>
+      </div>
+      <div class="num">34.</div>
+      <div class="qtext">Czy często czujesz się samotny?</div>
+    </div>
+    
+
+    <div class="item-row" id="item35">
+      <div class="choice">
+        <label><input type="radio" name="q35" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q35" value="N">N</label>
+      </div>
+      <div class="num">35.</div>
+      <div class="qtext">Czy trudno jest Ci podejmować decyzje?</div>
+    </div>
+    
+
+    <div class="item-row" id="item36">
+      <div class="choice">
+        <label><input type="radio" name="q36" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q36" value="N">N</label>
+      </div>
+      <div class="num">36.</div>
+      <div class="qtext">Czy jesteś osobą łatwo zmieniającą nastrój?</div>
+    </div>
+    
+
+    <div class="item-row" id="item37">
+      <div class="choice">
+        <label><input type="radio" name="q37" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q37" value="N">N</label>
+      </div>
+      <div class="num">37.</div>
+      <div class="qtext">Czy łatwo doświadczasz poczucia krzywdy w sytuacjach, w których inni mają pretensje do Ciebie lub zastrzeżenia do pracy, którą wykonujesz?</div>
+    </div>
+    
+
+    <div class="item-row" id="item38">
+      <div class="choice">
+        <label><input type="radio" name="q38" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q38" value="N">N</label>
+      </div>
+      <div class="num">38.</div>
+      <div class="qtext">Czy bywasz czasem tak zdenerwowany, że czujesz się „zablokowany” ze zdenerwowania?</div>
+    </div>
+    
+
+    <div class="item-row" id="item39">
+      <div class="choice">
+        <label><input type="radio" name="q39" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q39" value="N">N</label>
+      </div>
+      <div class="num">39.</div>
+      <div class="qtext">Czy obawiasz się wejść sam do pokoju, w którym zebrali się już i rozmawiają inni ludzie?</div>
+    </div>
+    
+
+    <div class="item-row" id="item40">
+      <div class="choice">
+        <label><input type="radio" name="q40" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q40" value="N">N</label>
+      </div>
+      <div class="num">40.</div>
+      <div class="qtext">Czy łatwo tracisz pewność siebie, kiedy inni Cię krytykują lub gdy coś Ci się nie uda?</div>
+    </div>
+    
+
+    <div class="item-row" id="item41">
+      <div class="choice">
+        <label><input type="radio" name="q41" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q41" value="N">N</label>
+      </div>
+      <div class="num">41.</div>
+      <div class="qtext">Czy trudno jest Ci utrzymać zainteresowanie tą samą rzeczą przez długi czas?</div>
+    </div>
+    
+
+    <div class="item-row" id="item42">
+      <div class="choice">
+        <label><input type="radio" name="q42" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q42" value="N">N</label>
+      </div>
+      <div class="num">42.</div>
+      <div class="qtext">Czy miewasz trudności z rozpoczęciem robienia czegoś?</div>
+    </div>
+    
+
+    <div class="item-row" id="item43">
+      <div class="choice">
+        <label><input type="radio" name="q43" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q43" value="N">N</label>
+      </div>
+      <div class="num">43.</div>
+      <div class="qtext">Czy często uważasz, że życie nie ma sensu?</div>
+    </div>
+    
+
+    <div class="item-row" id="item44">
+      <div class="choice">
+        <label><input type="radio" name="q44" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q44" value="N">N</label>
+      </div>
+      <div class="num">44.</div>
+      <div class="qtext">Czy miewasz trudności z kontrolowaniem swoich myśli?</div>
+    </div>
+    
+
+    <div class="item-row" id="item45">
+      <div class="choice">
+        <label><input type="radio" name="q45" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q45" value="N">N</label>
+      </div>
+      <div class="num">45.</div>
+      <div class="qtext">Czy często zamartwiasz się rzeczami, których nie powinieneś był zrobić lub powiedzieć?</div>
+    </div>
+    
+
+    <div class="item-row" id="item46">
+      <div class="choice">
+        <label><input type="radio" name="q46" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q46" value="N">N</label>
+      </div>
+      <div class="num">46.</div>
+      <div class="qtext">Czy zamartwiasz się strasznymi rzeczami, które mogłyby się zdarzyć?</div>
+    </div>
+    
+
+    <div class="item-row" id="item47">
+      <div class="choice">
+        <label><input type="radio" name="q47" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q47" value="N">N</label>
+      </div>
+      <div class="num">47.</div>
+      <div class="qtext">Czy bez względu na to, jak usilnie starasz się skupić na danej rzeczy, prześladują Cię myśli niezwiązane z tą sprawą?</div>
+    </div>
+    
+
+    <div class="item-row" id="item48">
+      <div class="choice">
+        <label><input type="radio" name="q48" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q48" value="N">N</label>
+      </div>
+      <div class="num">48.</div>
+      <div class="qtext">Czy kiedy znajdujesz się w pomieszczeniu wypełnionym ludźmi, miewasz trudności w nadążaniu za rozmową?</div>
+    </div>
+    
+
+    <div class="item-row" id="item49">
+      <div class="choice">
+        <label><input type="radio" name="q49" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q49" value="N">N</label>
+      </div>
+      <div class="num">49.</div>
+      <div class="qtext">Czy czujesz się zdezorientowany [wytrącony z równowagi], jeśli zbyt wiele rzeczy dzieje się jednocześnie?</div>
+    </div>
+    
+
+    <div class="item-row" id="item50">
+      <div class="choice">
+        <label><input type="radio" name="q50" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q50" value="N">N</label>
+      </div>
+      <div class="num">50.</div>
+      <div class="qtext">Czy marzenia łatwo odciągają Cię od wykonywanej pracy?</div>
+    </div>
+    
+
+    <div class="item-row" id="item51">
+      <div class="choice">
+        <label><input type="radio" name="q51" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q51" value="N">N</label>
+      </div>
+      <div class="num">51.</div>
+      <div class="qtext">Czy często czujesz, że „masz dość”?</div>
+    </div>
+    
+
+    <div class="item-row" id="item52">
+      <div class="choice">
+        <label><input type="radio" name="q52" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q52" value="N">N</label>
+      </div>
+      <div class="num">52.</div>
+      <div class="qtext">Czy martwisz się zbyt długo, kiedy zdarzy Ci się krępujące przeżycie [doświadczenie]?</div>
+    </div>
+    
+
+    <div class="item-row" id="item53">
+      <div class="choice">
+        <label><input type="radio" name="q53" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q53" value="N">N</label>
+      </div>
+      <div class="num">53.</div>
+      <div class="qtext">Czy nazwałbyś/nazwałabyś siebie osobą nerwową?</div>
+    </div>
+    
+
+    <div class="item-row" id="item54">
+      <div class="choice">
+        <label><input type="radio" name="q54" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q54" value="N">N</label>
+      </div>
+      <div class="num">54.</div>
+      <div class="qtext">Czy często się wahasz, kiedy masz zamiar powiedzieć coś w grupie ludzi, których nie znasz dość dobrze?</div>
+    </div>
+    
+
+    <div class="item-row" id="item55">
+      <div class="choice">
+        <label><input type="radio" name="q55" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q55" value="N">N</label>
+      </div>
+      <div class="num">55.</div>
+      <div class="qtext">Czy zwykle udaje Ci się w trakcie wesołego spotkania zapomnieć o stresach dnia codziennego i bawić się z innymi?*</div>
+    </div>
+    
+
+    <div class="item-row" id="item56">
+      <div class="choice">
+        <label><input type="radio" name="q56" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q56" value="N">N</label>
+      </div>
+      <div class="num">56.</div>
+      <div class="qtext">Czy ludzie, którzy usiłują Cię lepiej poznać, zwykle rezygnują [poddają się] po krótkim czasie?</div>
+    </div>
+    
+
+    <div class="item-row" id="item57">
+      <div class="choice">
+        <label><input type="radio" name="q57" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q57" value="N">N</label>
+      </div>
+      <div class="num">57.</div>
+      <div class="qtext">Czy uważasz, że zawieranie nowych znajomości, zwykle nie jest warte włożonego w nie wysiłku?</div>
+    </div>
+    
+
+    <div class="item-row" id="item58">
+      <div class="choice">
+        <label><input type="radio" name="q58" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q58" value="N">N</label>
+      </div>
+      <div class="num">58.</div>
+      <div class="qtext">Czy uważasz, że przyglądanie się jasnym światłom miasta to ekscytujące zajęcie?*</div>
+    </div>
+    
+
+    <div class="item-row" id="item59">
+      <div class="choice">
+        <label><input type="radio" name="q59" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q59" value="N">N</label>
+      </div>
+      <div class="num">59.</div>
+      <div class="qtext">Czy lubisz często spędzać czas poza domem?*</div>
+    </div>
+    
+
+    <div class="item-row" id="item60">
+      <div class="choice">
+        <label><input type="radio" name="q60" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q60" value="N">N</label>
+      </div>
+      <div class="num">60.</div>
+      <div class="qtext">Czy zwykle wolisz oglądać TV niż spotykać się ze znajomymi?</div>
+    </div>
+    
+
+    <div class="item-row" id="item61">
+      <div class="choice">
+        <label><input type="radio" name="q61" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q61" value="N">N</label>
+      </div>
+      <div class="num">61.</div>
+      <div class="qtext">Czy zazwyczaj niechętnie kupujesz nowe jedzenie, którego smaku nie znasz?</div>
+    </div>
+    
+
+    <div class="item-row" id="item62">
+      <div class="choice">
+        <label><input type="radio" name="q62" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q62" value="N">N</label>
+      </div>
+      <div class="num">62.</div>
+      <div class="qtext">Czy sprawia Ci przyjemność wspólne śpiewanie?*</div>
+    </div>
+    
+
+    <div class="item-row" id="item63">
+      <div class="choice">
+        <label><input type="radio" name="q63" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q63" value="N">N</label>
+      </div>
+      <div class="num">63.</div>
+      <div class="qtext">Czy uważasz, że ludzie, którzy dystansują się od emocjonalnych związków z innymi, wychodzą na tym lepiej?</div>
+    </div>
+    
+
+    <div class="item-row" id="item64">
+      <div class="choice">
+        <label><input type="radio" name="q64" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q64" value="N">N</label>
+      </div>
+      <div class="num">64.</div>
+      <div class="qtext">Czy masz poczucie, że istnieje niewiele rzeczy, których robienie sprawia ci przyjemność?</div>
+    </div>
+    
+
+    <div class="item-row" id="item65">
+      <div class="choice">
+        <label><input type="radio" name="q65" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q65" value="N">N</label>
+      </div>
+      <div class="num">65.</div>
+      <div class="qtext">Czy uważasz się za osobę zbyt niezależną, by angażować się w bliskie związki z innymi ludźmi?</div>
+    </div>
+    
+
+    <div class="item-row" id="item66">
+      <div class="choice">
+        <label><input type="radio" name="q66" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q66" value="N">N</label>
+      </div>
+      <div class="num">66.</div>
+      <div class="qtext">Czy uważasz się za osobę pełną życia?*</div>
+    </div>
+    
+
+    <div class="item-row" id="item67">
+      <div class="choice">
+        <label><input type="radio" name="q67" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q67" value="N">N</label>
+      </div>
+      <div class="num">67.</div>
+      <div class="qtext">Czy lubisz życie towarzyskie?*</div>
+    </div>
+    
+
+    <div class="item-row" id="item68">
+      <div class="choice">
+        <label><input type="radio" name="q68" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q68" value="N">N</label>
+      </div>
+      <div class="num">68.</div>
+      <div class="qtext">Czy masz wielu przyjaciół?*</div>
+    </div>
+    
+
+    <div class="item-row" id="item69">
+      <div class="choice">
+        <label><input type="radio" name="q69" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q69" value="N">N</label>
+      </div>
+      <div class="num">69.</div>
+      <div class="qtext">Czy lubisz spotykać się z innymi ludźmi?*</div>
+    </div>
+    
+
+    <div class="item-row" id="item70">
+      <div class="choice">
+        <label><input type="radio" name="q70" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q70" value="N">N</label>
+      </div>
+      <div class="num">70.</div>
+      <div class="qtext">Czy uważasz, że posiadanie bliskich przyjaciół nie jest tak ważne, jak utrzymują inni?</div>
+    </div>
+    
+
+    <div class="item-row" id="item71">
+      <div class="choice">
+        <label><input type="radio" name="q71" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q71" value="N">N</label>
+      </div>
+      <div class="num">71.</div>
+      <div class="qtext">Czy kiedy Twoje mięśnie są zmęczone lub obolałe, sprawia ci przyjemność masaż?*</div>
+    </div>
+    
+
+    <div class="item-row" id="item72">
+      <div class="choice">
+        <label><input type="radio" name="q72" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q72" value="N">N</label>
+      </div>
+      <div class="num">72.</div>
+      <div class="qtext">Czy taniec lub nawet sama myśl o nim zawsze wydawały Ci się nudne?</div>
+    </div>
+    
+
+    <div class="item-row" id="item73">
+      <div class="choice">
+        <label><input type="radio" name="q73" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q73" value="N">N</label>
+      </div>
+      <div class="num">73.</div>
+      <div class="qtext">Czy odczuwasz dyskomfort, kiedy znajomi Cię dotykają?</div>
+    </div>
+    
+
+    <div class="item-row" id="item74">
+      <div class="choice">
+        <label><input type="radio" name="q74" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q74" value="N">N</label>
+      </div>
+      <div class="num">74.</div>
+      <div class="qtext">Czy smakowanie nowych, nieznanych potraw to coś, co zawsze sprawiało Ci przyjemność?*</div>
+    </div>
+    
+
+    <div class="item-row" id="item75">
+      <div class="choice">
+        <label><input type="radio" name="q75" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q75" value="N">N</label>
+      </div>
+      <div class="num">75.</div>
+      <div class="qtext">Czy widząc gruby, miękki dywan, poczułeś kiedyś impuls, by zdjąć buty i przejść po nim boso?*</div>
+    </div>
+    
+
+    <div class="item-row" id="item76">
+      <div class="choice">
+        <label><input type="radio" name="q76" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q76" value="N">N</label>
+      </div>
+      <div class="num">76.</div>
+      <div class="qtext">Czy kiedy coś Cię martwi, masz ochotę rozmawiać o tym z innymi?*</div>
+    </div>
+    
+
+    <div class="item-row" id="item77">
+      <div class="choice">
+        <label><input type="radio" name="q77" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q77" value="N">N</label>
+      </div>
+      <div class="num">77.</div>
+      <div class="qtext">Czy jesteś w bliskich stosunkach ze swoimi przyjaciółmi/znajomymi?*</div>
+    </div>
+    
+
+    <div class="item-row" id="item78">
+      <div class="choice">
+        <label><input type="radio" name="q78" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q78" value="N">N</label>
+      </div>
+      <div class="num">78.</div>
+      <div class="qtext">Czy lubisz, kiedy ktoś masuje Ci plecy?*</div>
+    </div>
+    
+
+    <div class="item-row" id="item79">
+      <div class="choice">
+        <label><input type="radio" name="q79" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q79" value="N">N</label>
+      </div>
+      <div class="num">79.</div>
+      <div class="qtext">Czy aktywności takie jak spacer, pływanie, uprawianie sportu sprawiają Ci przyjemność?*</div>
+    </div>
+    
+
+    <div class="item-row" id="item80">
+      <div class="choice">
+        <label><input type="radio" name="q80" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q80" value="N">N</label>
+      </div>
+      <div class="num">80.</div>
+      <div class="qtext">Czy lubisz różnego rodzaju formy rekreacji i zabawy?*</div>
+    </div>
+    
+
+    <div class="item-row" id="item81">
+      <div class="choice">
+        <label><input type="radio" name="q81" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q81" value="N">N</label>
+      </div>
+      <div class="num">81.</div>
+      <div class="qtext">Czy prawdą jest, że Twoje związki z ludźmi nie nabierają zazwyczaj dużej intensywności?</div>
+    </div>
+    
+
+    <div class="item-row" id="item82">
+      <div class="choice">
+        <label><input type="radio" name="q82" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q82" value="N">N</label>
+      </div>
+      <div class="num">82.</div>
+      <div class="qtext">Czy złoszczą Cię osoby, które ostrożnie prowadzą samochód?</div>
+    </div>
+    
+
+    <div class="item-row" id="item83">
+      <div class="choice">
+        <label><input type="radio" name="q83" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q83" value="N">N</label>
+      </div>
+      <div class="num">83.</div>
+      <div class="qtext">Czy często miewasz pokusę, by postąpić odwrotnie niż sugerują Ci inni, mimo że wiesz, iż mają oni rację?</div>
+    </div>
+    
+
+    <div class="item-row" id="item84">
+      <div class="choice">
+        <label><input type="radio" name="q84" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q84" value="N">N</label>
+      </div>
+      <div class="num">84.</div>
+      <div class="qtext">Czy często miewasz pokusę, by wydawać pieniądze na rzeczy, na które Cię nie stać?</div>
+    </div>
+    
+
+    <div class="item-row" id="item85">
+      <div class="choice">
+        <label><input type="radio" name="q85" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q85" value="N">N</label>
+      </div>
+      <div class="num">85.</div>
+      <div class="qtext">Czy miewasz ochotę, by kogoś uderzyć?</div>
+    </div>
+    
+
+    <div class="item-row" id="item86">
+      <div class="choice">
+        <label><input type="radio" name="q86" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q86" value="N">N</label>
+      </div>
+      <div class="num">86.</div>
+      <div class="qtext">Czy zdarza Ci się zabierać głos w sprawach, o których nie masz pojęcia?</div>
+    </div>
+    
+
+    <div class="item-row" id="item87">
+      <div class="choice">
+        <label><input type="radio" name="q87" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q87" value="N">N</label>
+      </div>
+      <div class="num">87.</div>
+      <div class="qtext">Czy Twój nastrój najczęściej mieści się w przeciętnej skali – nie jest ani zbyt dobry, ani wyjątkowo zły?*</div>
+    </div>
+    
+
+    <div class="item-row" id="item88">
+      <div class="choice">
+        <label><input type="radio" name="q88" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q88" value="N">N</label>
+      </div>
+      <div class="num">88.</div>
+      <div class="qtext">Czy miewasz ochotę, by zrobić coś złego lub szokującego?</div>
+    </div>
+    
+
+    <div class="item-row" id="item89">
+      <div class="choice">
+        <label><input type="radio" name="q89" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q89" value="N">N</label>
+      </div>
+      <div class="num">89.</div>
+      <div class="qtext">Czy często miewasz ochotę, aby coś zniszczyć lub rozbić?</div>
+    </div>
+    
+
+    <div class="item-row" id="item90">
+      <div class="choice">
+        <label><input type="radio" name="q90" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q90" value="N">N</label>
+      </div>
+      <div class="num">90.</div>
+      <div class="qtext">Czy zdarza Ci się (radykalnie) zmieniać swój stosunek do tej samej osoby – od wielkiej sympatii, do skrajnej niechęci?</div>
+    </div>
+    
+
+    <div class="item-row" id="item91">
+      <div class="choice">
+        <label><input type="radio" name="q91" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q91" value="N">N</label>
+      </div>
+      <div class="num">91.</div>
+      <div class="qtext">Czy przed wykonaniem jakiejś czynności masz zwyczaj dokładnie przemyśleć to, co masz zrobić?*</div>
+    </div>
+    
+
+    <div class="item-row" id="item92">
+      <div class="choice">
+        <label><input type="radio" name="q92" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q92" value="N">N</label>
+      </div>
+      <div class="num">92.</div>
+      <div class="qtext">Czy sądzisz, że ludzie poświęcają zbyt wiele czasu na zabezpieczanie swojej przyszłości poprzez oszczędzanie i ubezpieczanie się?</div>
+    </div>
+    
+
+    <div class="item-row" id="item93">
+      <div class="choice">
+        <label><input type="radio" name="q93" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q93" value="N">N</label>
+      </div>
+      <div class="num">93.</div>
+      <div class="qtext">Czy kiedykolwiek obwiniałeś kogoś o coś, o czym wiedziałeś, że było Twoją winą?</div>
+    </div>
+    
+
+    <div class="item-row" id="item94">
+      <div class="choice">
+        <label><input type="radio" name="q94" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q94" value="N">N</label>
+      </div>
+      <div class="num">94.</div>
+      <div class="qtext">Czy zdarzyło Ci się oszukiwać w jakiejś grze?</div>
+    </div>
+    
+
+    <div class="item-row" id="item95">
+      <div class="choice">
+        <label><input type="radio" name="q95" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q95" value="N">N</label>
+      </div>
+      <div class="num">95.</div>
+      <div class="qtext">Czy kiedykolwiek miałeś ochotę, by zrobić sobie krzywdę?</div>
+    </div>
+    
+
+    <div class="item-row" id="item96">
+      <div class="choice">
+        <label><input type="radio" name="q96" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q96" value="N">N</label>
+      </div>
+      <div class="num">96.</div>
+      <div class="qtext">Czy będąc w grupie ludzi, zwykle wolisz, by ktoś inny był w centrum zainteresowania?*</div>
+    </div>
+    
+
+    <div class="item-row" id="item97">
+      <div class="choice">
+        <label><input type="radio" name="q97" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q97" value="N">N</label>
+      </div>
+      <div class="num">97.</div>
+      <div class="qtext">Czy kiedy zamierzasz jechać gdzieś pociągiem, często przybywasz na dworzec w ostatniej chwili?</div>
+    </div>
+    
+
+    <div class="item-row" id="item98">
+      <div class="choice">
+        <label><input type="radio" name="q98" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q98" value="N">N</label>
+      </div>
+      <div class="num">98.</div>
+      <div class="qtext">Czy martwiłoby Cię posiadanie długów?*</div>
+    </div>
+    
+
+    <div class="item-row" id="item99">
+      <div class="choice">
+        <label><input type="radio" name="q99" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q99" value="N">N</label>
+      </div>
+      <div class="num">99.</div>
+      <div class="qtext">Czy zażywałbyś leki (środki chemiczne), które mogłyby mieć dziwne lub niebezpieczne skutki?</div>
+    </div>
+    
+
+    <div class="item-row" id="item100">
+      <div class="choice">
+        <label><input type="radio" name="q100" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q100" value="N">N</label>
+      </div>
+      <div class="num">100.</div>
+      <div class="qtext">Czy uważasz się za osobę zdecydowanie przeciętną?*</div>
+    </div>
+    
+
+    <div class="item-row" id="item101">
+      <div class="choice">
+        <label><input type="radio" name="q101" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q101" value="N">N</label>
+      </div>
+      <div class="num">101.</div>
+      <div class="qtext">Czy zdarzyło Ci się kogoś wykorzystać?</div>
+    </div>
+    
+
+    <div class="item-row" id="item102">
+      <div class="choice">
+        <label><input type="radio" name="q102" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q102" value="N">N</label>
+      </div>
+      <div class="num">102.</div>
+      <div class="qtext">Czy chciałbyś, by inni bali się Ciebie?</div>
+    </div>
+    
+
+    <div class="item-row" id="item103">
+      <div class="choice">
+        <label><input type="radio" name="q103" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q103" value="N">N</label>
+      </div>
+      <div class="num">103.</div>
+      <div class="qtext">Czy często Ci się zdarza, że folgujesz sobie nadmiernie w spożyciu alkoholu lub jedzenia?</div>
+    </div>
+    
+
+    <div class="item-row" id="item104">
+      <div class="choice">
+        <label><input type="radio" name="q104" value="T">T</label>
+        <span class="slash">/</span>
+        <label><input type="radio" name="q104" value="N">N</label>
+      </div>
+      <div class="num">104.</div>
+      <div class="qtext">Czy denerwowałbyś się, mając odegrać przed innymi rolę błazna?*</div>
+    </div>
+    
+
+      <div class="actions">
+        <button type="button" id="calcBtn">Oblicz wynik</button>
+        <button type="reset" id="resetBtn">Wyczyść</button>
+      </div>
+
+      <div class="error" id="errorBox">Uzupełnij wszystkie odpowiedzi (T/N) przed obliczeniem wyniku.</div>
+
+      <div class="results" id="resultsBox">
+        <h2>Wynik</h2>
+        <div class="grid">
+          <div class="line"><b>Wynik ogólny:</b> <span id="totalScore"></span> / 104</div>
+          <div class="line"><b>Niezwykłe doznania:</b> <span id="ueScore"></span> / 30</div>
+          <div class="line"><b>Dezorganizacja poznawcza:</b> <span id="cdScore"></span> / 24</div>
+          <div class="line"><b>Introwersja i anhedonia:</b> <span id="iaScore"></span> / 27</div>
+          <div class="line"><b>Zachowania impulsywne i niezgodne z regułami:</b> <span id="inScore"></span> / 23</div>
+        </div>
+
+        <div class="report-label">Formułka do dokumentacji medycznej (skopiuj i wklej):</div>
+        <textarea id="reportText" readonly></textarea>
+        <div class="copy-row">
+          <button type="button" id="copyBtn">Kopiuj</button>
+          <span class="copy-note" id="copyNote"></span>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    (function() {
+      const STAR_ITEMS = new Set([55,58,59,62,66,67,68,69,71,74,75,76,77,78,79,80,87,91,96,98,100,104]);
+
+      function getAnswer(i) {
+        const radios = document.querySelectorAll('input[name="q' + i + '"]');
+        for (const r of radios) {
+          if (r.checked) return r.value;
+        }
+        return null;
+      }
+
+      function itemScore(i, ans) {
+        if (!ans) return 0;
+        if (STAR_ITEMS.has(i)) {
+          return (ans === 'N') ? 1 : 0;
+        }
+        return (ans === 'T') ? 1 : 0;
+      }
+
+      function scaleOf(i) {
+        if (i >= 1 && i <= 30) return 'UE';
+        if (i >= 31 && i <= 54) return 'CD';
+        if (i >= 55 && i <= 81) return 'IA';
+        if (i >= 82 && i <= 104) return 'IN';
+        return null;
+      }
+
+      const SCALE_LABELS = {
+        UE: 'niezwykłe doznania',
+        CD: 'dezorganizacja poznawcza',
+        IA: 'introwersja i anhedonia',
+        IN: 'zachowania impulsywne i niezgodne z regułami'
+      };
+
+      const SCALE_MAX = {
+        UE: 30,
+        CD: 24,
+        IA: 27,
+        IN: 23
+      };
+
+      function formatPercent(x) {
+        return (Math.round(x * 10) / 10).toFixed(1).replace('.', ',');
+      }
+
+      function topScales(scores) {
+        const arr = Object.keys(scores).map(k => {
+          const max = SCALE_MAX[k] || 1;
+          return { key: k, ratio: scores[k] / max };
+        });
+        arr.sort((a,b) => b.ratio - a.ratio);
+        return arr.map(x => SCALE_LABELS[x.key]);
+      }
+
+      const calcBtn = document.getElementById('calcBtn');
+      const errorBox = document.getElementById('errorBox');
+      const resultsBox = document.getElementById('resultsBox');
+      const reportText = document.getElementById('reportText');
+      const copyBtn = document.getElementById('copyBtn');
+      const copyNote = document.getElementById('copyNote');
+
+      calcBtn.addEventListener('click', () => {
+        errorBox.style.display = 'none';
+        copyNote.textContent = '';
+
+        let missing = [];
+        let scores = { UE: 0, CD: 0, IA: 0, IN: 0 };
+        let total = 0;
+
+        for (let i = 1; i <= 104; i++) {
+          const ans = getAnswer(i);
+          if (!ans) {
+            missing.push(i);
+            continue;
+          }
+          const s = itemScore(i, ans);
+          total += s;
+          const sc = scaleOf(i);
+          if (sc) scores[sc] += s;
+        }
+
+        if (missing.length > 0) {
+          errorBox.style.display = 'block';
+          // przewiń do pierwszego brakującego pytania
+          const first = missing[0];
+          const el = document.getElementById('item' + first);
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+
+        document.getElementById('totalScore').textContent = total;
+        document.getElementById('ueScore').textContent = scores.UE;
+        document.getElementById('cdScore').textContent = scores.CD;
+        document.getElementById('iaScore').textContent = scores.IA;
+        document.getElementById('inScore').textContent = scores.IN;
+
+        const top = topScales(scores);
+        const top3 = top.slice(0,3).join(', ');
+
+        const uePct = formatPercent((scores.UE / 30) * 100);
+        const cdPct = formatPercent((scores.CD / 24) * 100);
+        const iaPct = formatPercent((scores.IA / 27) * 100);
+        const inPct = formatPercent((scores.IN / 23) * 100);
+        const totalPct = formatPercent((total / 104) * 100);
+
+        const report =
+          'O-LIFE (Oxford-Liverpool Inventory of Feelings and Experiences): ' +
+          'wynik ogólny ' + total + '/104 (' + totalPct + '% maks.). ' +
+          'Podskale: niezwykłe doznania ' + scores.UE + '/30 (' + uePct + '%), ' +
+          'dezorganizacja poznawcza ' + scores.CD + '/24 (' + cdPct + '%), ' +
+          'introwersja i anhedonia ' + scores.IA + '/27 (' + iaPct + '%), ' +
+          'zachowania impulsywne i niezgodne z regułami ' + scores.IN + '/23 (' + inPct + '%). ' +
+          'Najwyższe względne nasilenie dotyczy: ' + top3 + '. ' +
+          'Wyższe wyniki oznaczają większe nasilenie cech schizotypowych w danym wymiarze; wynik kwestionariusza nie stanowi samodzielnej diagnozy i wymaga interpretacji w kontekście klinicznym.';
+
+        reportText.value = report;
+        resultsBox.style.display = 'block';
+        resultsBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+
+      copyBtn.addEventListener('click', async () => {
+        copyNote.textContent = '';
+        try {
+          await navigator.clipboard.writeText(reportText.value);
+          copyNote.textContent = 'Skopiowano do schowka.';
+        } catch (e) {
+          // fallback
+          reportText.select();
+          document.execCommand('copy');
+          copyNote.textContent = 'Skopiowano do schowka.';
+        }
+      });
+
+      // Ukryj wyniki po resecie
+      document.getElementById('resetBtn').addEventListener('click', () => {
+        resultsBox.style.display = 'none';
+        errorBox.style.display = 'none';
+        copyNote.textContent = '';
+      });
+    })();
+  </script>
+</body>
+</html>
